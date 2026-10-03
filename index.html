@@ -134,8 +134,7 @@ footer{border-top:1px solid var(--line);background:#fff;padding:22px 0 30px;colo
 footer p{margin:4px 0}
 #toTop{position:fixed;right:22px;bottom:26px;width:42px;height:42px;border-radius:50%;border:none;background:var(--primary);color:#fff;font-size:17px;cursor:pointer;box-shadow:0 4px 14px rgba(67,56,202,.4);opacity:0;pointer-events:none;transition:.25s;z-index:99}
 #toTop.show{opacity:1;pointer-events:auto}
-.card.flash{animation:flash 1.8s ease}
-@keyframes flash{0%{box-shadow:0 0 0 4px rgba(217,119,6,.55)}100%{box-shadow:0 0 0 4px rgba(217,119,6,0)}}
+.card.picked{border-color:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.4)}
 @media (max-width:640px){
   .hero{padding:38px 0 42px}.hero h1{font-size:25px}
   .content{padding-left:16px}
@@ -915,6 +914,9 @@ footer p{margin:4px 0}
   cards.forEach(function(card){
     card.querySelector('.card-head').addEventListener('click', function(){
       setOpen(card, !card.classList.contains('open'));
+      if (card.classList.contains('picked') && !card.classList.contains('open')) {
+        card.classList.remove('picked');
+      }
       refreshChBtns();
     });
   });
@@ -933,13 +935,14 @@ footer p{margin:4px 0}
     cards.forEach(function(c){setOpen(c,false);}); refreshChBtns();
   });
 
-  /* 随机抽题（作业题）：仅定位题目并高亮，不展开答案 */
+  /* 随机抽题（作业题）：定位题目并保持高亮，抽下一题或关闭该题后取消 */
   document.getElementById('btnRandom').addEventListener('click', function(){
     clearSearch(false);
     var hws = cards.filter(function(c){return c.classList.contains('hw');});
     var pick = hws[Math.floor(Math.random()*hws.length)];
+    cards.forEach(function(c){c.classList.remove('picked');});
+    pick.classList.add('picked');
     pick.scrollIntoView({behavior:'smooth', block:'center'});
-    pick.classList.remove('flash'); void pick.offsetWidth; pick.classList.add('flash');
   });
 
   /* 搜索 */
