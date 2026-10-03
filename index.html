@@ -933,14 +933,11 @@ footer p{margin:4px 0}
     cards.forEach(function(c){setOpen(c,false);}); refreshChBtns();
   });
 
-  /* 随机抽题（作业题） */
+  /* 随机抽题（作业题）：仅定位题目并高亮，不展开答案 */
   document.getElementById('btnRandom').addEventListener('click', function(){
+    clearSearch(false);
     var hws = cards.filter(function(c){return c.classList.contains('hw');});
     var pick = hws[Math.floor(Math.random()*hws.length)];
-    cards.forEach(function(c){setOpen(c,false);});
-    clearSearch(true);
-    setOpen(pick, true);
-    refreshChBtns();
     pick.scrollIntoView({behavior:'smooth', block:'center'});
     pick.classList.remove('flash'); void pick.offsetWidth; pick.classList.add('flash');
   });
