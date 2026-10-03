@@ -941,11 +941,10 @@ footer p{margin:4px 0}
     cards.forEach(function(c){setOpen(c,false);}); refreshChBtns();
   });
 
-  /* 随机抽题（作业题）：定位题目并保持高亮，展开题目或抽下一题时渐变取消 */
+  /* 随机抽题（作业题+知识点）：定位题目并保持高亮，展开题目或抽下一题时渐变取消 */
   document.getElementById('btnRandom').addEventListener('click', function(){
     clearSearch(false);
-    var hws = cards.filter(function(c){return c.classList.contains('hw');});
-    var pick = hws[Math.floor(Math.random()*hws.length)];
+    var pick = cards[Math.floor(Math.random()*cards.length)];
     cards.forEach(function(c){ clearPick(c); });
     clearTimeout(pick._pickFadeT);
     pick.classList.remove('picked-fade');
